@@ -1,5 +1,5 @@
 documents = [
-	{
+    {
         "name": "The Time Machine",
         "description": "A man travels through time and witnesses the evolution of humanity.",
         "author": "H.G. Wells",
@@ -77,7 +77,7 @@ documents = [
         "author": "Liu Cixin",
         "year": 2008,
     },
-	{
+    {
         "name": "Cosmic Visions",
         "description": "An epic space opera depicting a galaxy-spanning conflict between ancient civilizations.",
         "author": "Maxwell Reynolds",
@@ -430,5 +430,5 @@ documents = [
         "description": "A quantum experiment yields unexpected results, echoing across multiple realities and timelines.",
         "author": "Emily Thompson",
         "year": 2027,
-    }
+    },
 ]
