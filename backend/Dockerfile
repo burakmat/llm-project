@@ -1,6 +1,6 @@
 FROM python:3.9.18-slim
 WORKDIR /app
-COPY . .
+COPY requirements.txt .
 RUN pip install -r requirements.txt
 EXPOSE 8000
 ENTRYPOINT [ "python", "manage.py", "runserver"]
