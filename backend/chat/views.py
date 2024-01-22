@@ -11,7 +11,7 @@ def chat_with_openai(request):
     if request.method == 'POST':
         user_input = request.POST.get('message', '')
 
-        openai.api_key = "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"
+        openai.api_key = settings.OPENAI_API_KEY # "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"
 
         try:
             response = openai.ChatCompletion.create(

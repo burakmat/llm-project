@@ -13,6 +13,8 @@ services:
       - qdrant
     volumes:
       - ./backend:/app
+    env_file:
+      - .env
 
 volumes:
   qdrant-volume:
