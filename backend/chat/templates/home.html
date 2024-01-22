@@ -1,0 +1,35 @@
+<!-- myapp/templates/home.html -->
+<html>
+<head>
+    <title>LLM Project</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>LLM Project</h1>
+    <form id="chat-form">
+        <input type="text" id="user-input" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+    <div id="chat-output"></div>
+
+    <script>
+$('#chat-form').on('submit', function(e){
+    e.preventDefault();
+    var userInput = $('#user-input').val();
+    $.ajax({
+        url: '/chat_with_openai/',  // Update this URL to your Django view's URL
+        method: 'POST',
+        data: {
+            'message': userInput,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        },
+        success: function(response){
+            $('#chat-output').append('<p>You: ' + userInput + '</p>');
+            $('#chat-output').append('<p>AI: ' + response.response + '</p>');
+            $('#user-input').val('');
+        }
+    });
+});
+    </script>
+</body>
+</html>

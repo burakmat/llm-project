@@ -16,7 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from chat.views import home  # Import the view
+from chat.views import chat_with_openai
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('', home, name='home'),  # Set the home view as the landing page
+    path('chat_with_openai/', chat_with_openai, name='chat_with_openai'),
+    path('admin/', admin.site.urls),
 ]
