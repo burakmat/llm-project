@@ -1,24 +1,36 @@
 <!-- myapp/templates/home.html -->
 <html>
 <head>
+    
     <title>LLM Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
 </head>
-<body>
-    <h1>LLM Project</h1>
-    <form id="chat-form">
-        <textarea id="user-input" placeholder="Type your message..."></textarea>
-        <button type="submit">Send</button>
+<body style="font-family: 'Lato', sans-serif; background: #fdfdfc;">
+<nav>
+    <h1 style="text-align: center">LLM Project</h1>
+</nav>
+
+<main style="margin: 0 auto; width: 650px; ">
+    <form id="chat-form" style="display: flex; align-items: center; justify-content: center; gap:1em; ">
+        <textarea id="user-input" placeholder="What kind of books do you wanna read next?" 
+        style="width:570px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:0.6em;"></textarea>
+        <button 
+        style="height: 100%; padding: 0.8em 1.5em; cursor: pointer; background: #698c85; border-radius: 8px; font-size:16px;" 
+        type="submit">Send</button>
     </form>
     <div id="chat-output"></div>
-
+</main>
     <script>
 $('#chat-form').on('submit', function(e){
     e.preventDefault();
     var userInput = $('#user-input').val();
 
     // Append the user's message
-    $('#chat-output').append('<p>You: ' + userInput + '</p>');
+    $('#chat-output').append('<p> <span style="font-weight: bold;">You:</span> ' + userInput + '</p>');
 
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/chat_with_openai/', true);
@@ -30,7 +42,7 @@ $('#chat-form').on('submit', function(e){
         if (lastLine) {
             try {
                 var json = JSON.parse(lastLine);
-                $('#chat-output').append('<p>AI: ' + json.response + '</p>');
+                $('#chat-output').append('<p> <span style="font-weight: bold;">AI:</span> ' + json.response + '</p>');
             } catch(e) {
                 // Handle parsing error here
             }
