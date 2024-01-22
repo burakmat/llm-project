@@ -20,7 +20,7 @@ from chat.views import home  # Import the view
 from chat.views import chat_with_openai
 
 urlpatterns = [
-    path('', home, name='home'),  # Set the home view as the landing page
+    path('', home, name='home'), 
     path('chat_with_openai/', chat_with_openai, name='chat_with_openai'),
     path('admin/', admin.site.urls),
 ]

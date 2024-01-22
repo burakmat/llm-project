@@ -16,19 +16,30 @@
 $('#chat-form').on('submit', function(e){
     e.preventDefault();
     var userInput = $('#user-input').val();
-    $.ajax({
-        url: '/chat_with_openai/',  // Update this URL to your Django view's URL
-        method: 'POST',
-        data: {
-            'message': userInput,
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
-        },
-        success: function(response){
-            $('#chat-output').append('<p>You: ' + userInput + '</p>');
-            $('#chat-output').append('<p>AI: ' + response.response + '</p>');
-            $('#user-input').val('');
+
+    // Append the user's message
+    $('#chat-output').append('<p>You: ' + userInput + '</p>');
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/chat_with_openai/', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+    xhr.onprogress = function () {
+        var response = xhr.responseText;
+        var lastLine = response.substring(response.lastIndexOf('\n')+1);
+        if (lastLine) {
+            try {
+                var json = JSON.parse(lastLine);
+                $('#chat-output').append('<p>AI: ' + json.response + '</p>');
+            } catch(e) {
+                // Handle parsing error here
+            }
         }
-    });
+    };
+    xhr.send('message=' + encodeURIComponent(userInput));
+
+    // Clear the input field
+    $('#user-input').val('');
 });
     </script>
 </body>
