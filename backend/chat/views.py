@@ -5,6 +5,7 @@ from django.conf import settings
 import openai
 import json
 import os
+from chat.apps import embedder
 
 @csrf_exempt
 def chat_with_openai(request):
