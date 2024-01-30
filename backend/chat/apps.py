@@ -1,12 +1,12 @@
 from django.apps import AppConfig
-from ..embedder import Embedder
+from embedder import Embedder
 
 embedder = None
 
 class ChatConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'chat'
-    def ready():
+    def ready(self):
         from qdrant_client.http.exceptions import UnexpectedResponse
         from qdrant_client import models
         from data import documents

@@ -4,7 +4,7 @@ from qdrant_client import QdrantClient
 class Embedder():
     def __init__(self):
         self.encoder = SentenceTransformer("all-MiniLM-L6-v2")
-        self.qdrant = QdrantClient("http://localhost:6333")
+        self.qdrant = QdrantClient("http://qdrant:6333")
         
     def query_books(self, query):
         """
