@@ -45,6 +45,27 @@ a{
         opacity: 0.7;
     }
 }
+.file-input__input {
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.file-input__label {
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+    width: 40px;
+  height: 40px;
+
+}
+
+.file-input__label svg {
+  height: 40px;
+ }
 
 
 </style>
@@ -55,7 +76,24 @@ a{
 
 <main style="margin: 0 auto; width: 1000px; ">
     <form id="chat-form" style="display: flex; align-items: center; justify-content: center; gap:1em; ">
-        <input autocomplete="off" id="user-input" placeholder="What do you wanna read next?" 
+        <div>      
+        <input
+        type="file"
+        name="file-input"
+        id="file-input"
+        class="file-input__input"
+        accept=".pdf"
+      />
+      <label         
+        title="Add your own books to the database"  
+        class="file-input__label" for="file-input">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-patch-plus-fill" viewBox="0 0 16 16">
+        <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01zM8.5 6v1.5H10a.5.5 0 0 1 0 1H8.5V10a.5.5 0 0 1-1 0V8.5H6a.5.5 0 0 1 0-1h1.5V6a.5.5 0 0 1 1 0"/>
+        </svg>
+    </label
+      >
+</div>
+<input autocomplete="off" id="user-input" placeholder="What do you wanna read next?" 
         style="width:900px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:1em;"></input>
         <button 
         style="height: 100%; padding: 0.8em 1.5em; cursor: pointer; background: #698c85; border-radius: 8px; font-size:16px;" 
