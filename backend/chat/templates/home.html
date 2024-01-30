@@ -9,22 +9,67 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
 </head>
+<style>
+.card {
+  width: 292px;
+  border-radius: 8px;
+  background-color: white;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+  border: 1px solid black;
+  transition: .2s ease-in-out;
+}
+.card:hover {
+    filter: drop-shadow(2px 4px 6px #DDDDDD);
+    transition: .2s ease-in-out;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.breathing-dot {
+    width: 15px; 
+    height: 15px; 
+    background-color: #708b85; 
+    border-radius: 50%; /* Make it circular */
+    animation: breathing 2s ease-in-out infinite;
+}
+
+@keyframes breathing {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.7;
+    }
+}
+
+
+</style>
 <body style="font-family: 'Lato', sans-serif; background: #fdfdfc; padding-top: 2em;">
 <nav>
     <h1 style="text-align: center">LLM Project</h1>
 </nav>
 
-<main style="margin: 0 auto; width: 650px; ">
+<main style="margin: 0 auto; width: 1000px; ">
     <form id="chat-form" style="display: flex; align-items: center; justify-content: center; gap:1em; ">
         <input autocomplete="off" id="user-input" placeholder="What do you wanna read next?" 
-        style="width:570px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:1em;"></input>
+        style="width:900px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:1em;"></input>
         <button 
         style="height: 100%; padding: 0.8em 1.5em; cursor: pointer; background: #698c85; border-radius: 8px; font-size:16px;" 
         type="submit">Send</button>
     </form>     
-    <div id="loading" style="text-align: center; display: none;">Loading...</div>
     <div id="chat-output"></div>
-    <div id="bookHits"></div>
+    <div id="loading" style="text-align: center; display: none;">
+        <div class="breathing-dot"></div>
+    </div>
+
+
+    <div id="bookHits" style="display: flex; gap: 2em;">
+        
+    </div>
 </main>
     <script>
         $('#chat-form').on('submit', function(e){
@@ -51,7 +96,15 @@
 
                         // Display new book hits
                         response.book_hits.forEach(function(hit) {
-                            $('#bookHits').append('<p><strong>Book:</strong> ' + hit.payload + ' <em>(Score: ' + hit.score + ')</em></p>');
+                            $('#bookHits').append(
+                                '<a target="_blank" href="http://www.google.com/search?q=' + hit.payload.name + " " + hit.payload.author + " book"+ '">' +
+                                    '<div class="card">' +
+                                        '<h4 style="margin-bottom: 4px;">' + hit.payload.name + '</h4>' +
+                                        '<small style="color:#535353;">' + hit.payload.author + '</small>' +
+                                        '<p>' + hit.payload.description + '</p>' +
+                                    '</div>' +
+                                '</a>'
+                            );
                         });
                     }
                 }
