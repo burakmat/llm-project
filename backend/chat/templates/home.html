@@ -9,50 +9,59 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
 </head>
-<body style="font-family: 'Lato', sans-serif; background: #fdfdfc;">
+<body style="font-family: 'Lato', sans-serif; background: #fdfdfc; padding-top: 2em;">
 <nav>
     <h1 style="text-align: center">LLM Project</h1>
 </nav>
 
 <main style="margin: 0 auto; width: 650px; ">
     <form id="chat-form" style="display: flex; align-items: center; justify-content: center; gap:1em; ">
-        <textarea id="user-input" placeholder="What kind of books do you wanna read next?" 
-        style="width:570px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:0.6em;"></textarea>
+        <input autocomplete="off" id="user-input" placeholder="What do you wanna read next?" 
+        style="width:570px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:1em;"></input>
         <button 
         style="height: 100%; padding: 0.8em 1.5em; cursor: pointer; background: #698c85; border-radius: 8px; font-size:16px;" 
         type="submit">Send</button>
-    </form>
+    </form>     
+    <div id="loading" style="text-align: center; display: none;">Loading...</div>
     <div id="chat-output"></div>
+    <div id="bookHits"></div>
 </main>
     <script>
-$('#chat-form').on('submit', function(e){
-    e.preventDefault();
-    var userInput = $('#user-input').val();
+        $('#chat-form').on('submit', function(e){
+            e.preventDefault();
+            var userInput = $('#user-input').val();
 
-    // Append the user's message
-    $('#chat-output').append('<p> <span style="font-weight: bold;">You:</span> ' + userInput + '</p>');
+            // Clear previous book hits and show loading
+            $('#chat-output').empty();
+            $('#bookHits').empty();
+            $('#loading').show();
 
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/chat_with_openai/', true);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
-    xhr.onprogress = function () {
-        var response = xhr.responseText;
-        var lastLine = response.substring(response.lastIndexOf('\n')+1);
-        if (lastLine) {
-            try {
-                var json = JSON.parse(lastLine);
-                $('#chat-output').append('<p> <span style="font-weight: bold;">AI:</span> ' + json.response + '</p>');
-            } catch(e) {
-                // Handle parsing error here
-            }
-        }
-    };
-    xhr.send('message=' + encodeURIComponent(userInput));
+            // Append the user's message
+            $('#chat-output').append('<p> <span style="font-weight: bold;">You:</span> ' + userInput + '</p>');
 
-    // Clear the input field
-    $('#user-input').val('');
-});
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', '/chat_with_openai/', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    $('#loading').hide();
+                    if(xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
+
+                        // Display new book hits
+                        response.book_hits.forEach(function(hit) {
+                            $('#bookHits').append('<p><strong>Book:</strong> ' + hit.payload + ' <em>(Score: ' + hit.score + ')</em></p>');
+                        });
+                    }
+                }
+            };
+
+            xhr.send('message=' + encodeURIComponent(userInput));
+
+            // Clear the input field after sending the message
+            $('#user-input').val('');
+        });
     </script>
 </body>
 </html>
