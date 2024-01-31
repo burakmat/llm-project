@@ -32,8 +32,7 @@ class ChatConfig(AppConfig):
                         "id": wikipedia_id,
                         "name": title,
                         "author": author,
-                        "publication": pub_date,
-                        "description": plot_summary
+                        "description": plot_summary[:100]
                     }
 
                     books_list.append(book_info)
@@ -42,7 +41,7 @@ class ChatConfig(AppConfig):
                 collection_name="my_books",
                 records=[
                     models.Record(
-                        id=int(book["id"]), vector=embedder.encoder.encode(book["description"][:100]).tolist(), payload=book
+                        id=int(book["id"]), vector=embedder.encoder.encode(book["description"]).tolist(), payload=book
                     )
                     for book in books_list[:50]
                 ],

@@ -1,6 +1,7 @@
 from sentence_transformers import SentenceTransformer
 from qdrant_client import QdrantClient
 from qdrant_client import models
+from random import randint
 
 class Embedder():
     def __init__(self):
@@ -32,7 +33,7 @@ class Embedder():
             collection_name="my_books",
             records=[
                 models.Record(
-                    vector=self.encoder.encode(book["description"]).tolist(), payload=book
+                    id=randint(1, 999999), vector=self.encoder.encode(book["description"]).tolist(), payload=book
                 )
             ]
         )
