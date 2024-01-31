@@ -1,9 +1,13 @@
 from django.shortcuts import render
-from django.http import JsonResponse, StreamingHttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 import openai
 from chat.apps import embedder
+import os
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.core.files.storage import FileSystemStorage
 
 @csrf_exempt
 def chat_with_openai(request):
@@ -24,7 +28,7 @@ def chat_with_openai(request):
 
             # Use the Embedder to query books based on AI response
             book_hits = embedder.query_books(ai_response)
-
+            print(book_hits)
             # Format the response data
             formatted_hits = [{'payload': hit.payload, 'score': hit.score} for hit in book_hits]
             
@@ -33,6 +37,18 @@ def chat_with_openai(request):
             return JsonResponse({'response': str(e)})
 
     return JsonResponse({'response': 'Invalid request'}, status=400)
+
+
+
+def upload_file(request):
+    if request.method == 'POST' and request.FILES['file-input']:
+        myfile = request.FILES['file-input']
+        fs = FileSystemStorage(location=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        return render(request, 'home.html', {'uploaded_file_url': uploaded_file_url})
+    return render(request, 'home.html')
+
 
 def home(request):
     return render(request, 'home.html')

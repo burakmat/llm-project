@@ -18,9 +18,11 @@ from django.contrib import admin
 from django.urls import path
 from chat.views import home  # Import the view
 from chat.views import chat_with_openai
+from chat.views import upload_file
 
 urlpatterns = [
     path('', home, name='home'), 
     path('chat_with_openai/', chat_with_openai, name='chat_with_openai'),
     path('admin/', admin.site.urls),
+    path('upload/', upload_file, name='upload_file'),
 ]
