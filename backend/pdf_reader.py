@@ -4,7 +4,7 @@ book_path = "../sample_book.pdf"
 
 def get_pdf_text(path):
     book_path = "../sample_book.pdf"
-    loader = PyPDFLoader(book_path)
+    loader = PyPDFLoader(path)
     pages = loader.load_and_split()
     read = ""
     for page in pages[:10]:
