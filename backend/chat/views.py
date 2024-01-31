@@ -8,6 +8,7 @@ import os
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.core.files.storage import FileSystemStorage
+from pdf_reader import get_pdf_text
 
 @csrf_exempt
 def chat_with_openai(request):
