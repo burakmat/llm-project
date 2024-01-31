@@ -75,7 +75,7 @@ a{
 </nav>
 
 <main style="margin: 0 auto; width: 1000px; ">
-    <div style="display: flex; gap: 1em; align-items: center;">
+    <div style="display: flex; gap: 1em; align-items: center; margin: 0 auto;">
         <form method="post" enctype="multipart/form-data" action="{% url 'upload_file' %}">
             {% csrf_token %}
 
@@ -98,7 +98,7 @@ a{
 
         <form id="chat-form" style="display: flex; align-items: center; justify-content: center; gap:1em; ">
             <input autocomplete="off" id="user-input" placeholder="What do you wanna read next?" 
-                style="width:900px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:1em;"></input>
+                style="width:800px; font-family: 'Lato', sans-serif; resize: none; border-radius: 8px; padding:1em;"></input>
                 <button 
                 style="height: 100%; padding: 0.8em 1.5em; cursor: pointer; background: #698c85; border-radius: 8px; font-size:16px;" 
                 type="submit">Send</button>
