@@ -45,7 +45,7 @@ def upload_file(request):
         myfile = request.FILES['file-input']
         fs = FileSystemStorage(location=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         filename = fs.save(myfile.name, myfile)
-        uploaded_file_url = fs.url(filename)
+        uploaded_file_url = filename
         return render(request, 'home.html', {'uploaded_file_url': uploaded_file_url})
     return render(request, 'home.html')
 
